@@ -1,7 +1,7 @@
+function output = cv5(filename)
 testPercent = 0.8;
 
-addpath('DJIA_Prediction', 'SeroFAM', 'Indicators', 'Portfolio');
-data = fetchData('^GSPC');
+data = fetchData(filename);
 
 [inputTrain, predOutTrain, outputTrain, trainErr, ...
  inputTest,  predOutTest,  outputTest,  testErr] = ...
@@ -38,9 +38,8 @@ for i = 1:4
     out = nan(50,6);
     for j = 1:50
         x = ga(funcFitness, 5, A, B, [], [], lb, ub, [], [1,2,3], gaOpt);
-        [macdh, fMACDH] = getfMACDH(dataIn{i}, dataOut{i}, x(1), x(2), x(3), 1);
+        [~, fMACDH, ~] = getfMACDH(dataIn{i}, dataOut{i}, x(1), x(2), x(3), 1);
         fMACDHSignal = getBuySell(fMACDH, x(4), x(5));
-        [lagBuy, lagSell, miss, total] = getLag(peakTrough, fMACDHSignal);
 
         investfMACDH = investSignal(fMACDHSignal, dataIn{i}, 300000);
         out(j, :) = [investfMACDH, x(1), x(2), x(3), x(4), x(5)];
@@ -51,14 +50,13 @@ for i = 1:4
     res(i) = outSorted(1,1);
 
     for j = i+1:5
-        [~, fMACDH] = getfMACDH(dataIn{j}, dataOut{j}, x(1), x(2), x(3), 1);
+        [~, fMACDH, ~] = getfMACDH(dataIn{j}, dataOut{j}, x(1), x(2), x(3), 1);
         fMACDHSignal = getBuySell(fMACDH, x(4), x(5));
-        [lagBuy, lagSell, miss, total] = getLag(peakTrough, fMACDHSignal);
 
         investfMACDH = investSignal(fMACDHSignal, dataIn{j}, 300000);
         res(j) = investfMACDH;
     end
     r = [r;res];
 end
-disp("result is: ")
-disp(r)
+output = r
+end
