@@ -4,8 +4,9 @@ data = {'^DJI', '^FTSE', '^GSPC', '^HSI', '^IXIC', '^N225', '^STI'};
 output = cell(length(data), 1);
 
 for i = 1:length(data)
-    %output{i} = optimMACDH(data{i});
-    output{i} = BAH(data{i});
+    % output{i} = optimMACDH(data{i});
+    % output{i} = BAH(data{i});
+    output{i} = cv5(data{i});
 end
 
 

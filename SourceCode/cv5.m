@@ -21,9 +21,50 @@ dataOut{3} = predOutTest(foldSize+1:2*foldSize);
 dataOut{4} = predOutTest(2*foldSize+1:3*foldSize);
 dataOut{5} = predOutTest(3*foldSize+1:end);
 
+output = cell(2,1);
+
 peakTrough = getPeakTrough(inputTest);
 r = [];
 for i = 1:4
+    res = zeros(2,5);
+
+    % GA using cash
+    funcFitness = @(x) getFitnessCash(x, dataIn{i}, dataOut{i});
+    lb = [1, 1, 1, 0, -0.01];
+    ub = [50, 50, 50, 0.01, 0];
+    A = [1, -1, 0, 0, 0];
+    B = [0];
+    gaOpt = optimoptions('ga');
+    gaOpt.UseParallel = true;
+    gaOpt.Display = 'iter';
+    gaOpt.FunctionTolerance = 1e-10;
+    gaOpt.MaxStallGenerations = 20;
+
+    out = nan(50,6);
+    for j = 1:50
+        x = ga(funcFitness, 5, A, B, [], [], lb, ub, [], [1,2,3], gaOpt);
+        [~, fMACDH, ~] = getfMACDH(dataIn{i}, dataOut{i}, x(1), x(2), x(3), 1);
+        fMACDHSignal = getBuySell(fMACDH, x(4), x(5));
+
+        investfMACDH = investSignal(fMACDHSignal, dataIn{i}, 300000);
+        out(j, :) = [investfMACDH, x(1), x(2), x(3), x(4), x(5)];
+    end
+    outSorted = sortrows(out, 'descend');
+    x = outSorted(1, 2:6);
+    res(1, i) = outSorted(1,1);
+
+    for j = i+1:5
+        [~, fMACDH, ~] = getfMACDH(dataIn{j}, dataOut{j}, x(1), x(2), x(3), 1);
+        fMACDHSignal = getBuySell(fMACDH, x(4), x(5));
+
+        investfMACDH = investSignal(fMACDHSignal, dataIn{j}, 300000);
+        res(1,j) = investfMACDH;
+    end
+    r = [r;x,nan(1,1),res];
+end
+output{1} = r;
+for i = 1:4
+    % GA with lag
     funcFitness = @(x) getFitnessMACDH(x, dataIn{i}, dataOut{i}, peakTrough);
     lb = [1, 1, 1, 0, -0.01];
     ub = [50, 50, 50, 0.01, 0];
@@ -46,17 +87,16 @@ for i = 1:4
     end
     outSorted = sortrows(out, 'descend');
     x = outSorted(1, 2:6);
-    res = zeros(1,5);
-    res(i) = outSorted(1,1);
+    res(2, i) = outSorted(1,1);
 
     for j = i+1:5
         [~, fMACDH, ~] = getfMACDH(dataIn{j}, dataOut{j}, x(1), x(2), x(3), 1);
         fMACDHSignal = getBuySell(fMACDH, x(4), x(5));
 
         investfMACDH = investSignal(fMACDHSignal, dataIn{j}, 300000);
-        res(j) = investfMACDH;
+        res(2, j) = investfMACDH;
     end
-    r = [r;res];
+    r = [r;x,nan(1,1),res];
 end
-output = r
+output{2} = r;
 end
