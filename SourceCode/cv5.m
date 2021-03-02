@@ -26,7 +26,7 @@ output = cell(2,1);
 peakTrough = getPeakTrough(inputTest);
 r = [];
 for i = 1:4
-    res = zeros(2,5);
+    res = zeros(1,5);
 
     % GA using cash
     funcFitness = @(x) getFitnessCash(x, dataIn{i}, dataOut{i});
@@ -51,19 +51,21 @@ for i = 1:4
     end
     outSorted = sortrows(out, 'descend');
     x = outSorted(1, 2:6);
-    res(1, i) = outSorted(1,1);
+    res(i) = outSorted(1,1);
 
     for j = i+1:5
         [~, fMACDH, ~] = getfMACDH(dataIn{j}, dataOut{j}, x(1), x(2), x(3), 1);
         fMACDHSignal = getBuySell(fMACDH, x(4), x(5));
 
         investfMACDH = investSignal(fMACDHSignal, dataIn{j}, 300000);
-        res(1,j) = investfMACDH;
+        res(j) = investfMACDH;
     end
     r = [r;x,nan(1,1),res];
 end
 output{1} = r;
+r = [];
 for i = 1:4
+    res = zeros(1,5);
     % GA with lag
     funcFitness = @(x) getFitnessMACDH(x, dataIn{i}, dataOut{i}, peakTrough);
     lb = [1, 1, 1, 0, -0.01];
@@ -87,14 +89,14 @@ for i = 1:4
     end
     outSorted = sortrows(out, 'descend');
     x = outSorted(1, 2:6);
-    res(2, i) = outSorted(1,1);
+    res(i) = outSorted(1,1);
 
     for j = i+1:5
         [~, fMACDH, ~] = getfMACDH(dataIn{j}, dataOut{j}, x(1), x(2), x(3), 1);
         fMACDHSignal = getBuySell(fMACDH, x(4), x(5));
 
         investfMACDH = investSignal(fMACDHSignal, dataIn{j}, 300000);
-        res(2, j) = investfMACDH;
+        res(j) = investfMACDH;
     end
     r = [r;x,nan(1,1),res];
 end

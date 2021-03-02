@@ -1,4 +1,4 @@
-function [output] = optimMACDH(filename)
+function output = optimMACDH(filename)
 
 testPercent = 0.2;
 data = fetchData(filename);
@@ -37,7 +37,7 @@ gaOpt.FunctionTolerance = 1e-10;
 gaOpt.MaxStallGenerations = 20;
 % x = ga(funcFitness, 8, A, B, [], [], lb, ub, [], [1,2,3,6,7,8], gaOpt);
 
-out = nan(101,6);
+out = nan(102,6);
 
 [macdh, fMACDH, hMACDH] = getfMACDH(inputTest, predOutTest, 12, 26, 9, 1);
 
