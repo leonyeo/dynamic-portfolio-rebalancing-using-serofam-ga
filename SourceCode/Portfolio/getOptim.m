@@ -1,4 +1,6 @@
 function out = getOptim(filename)
+    testPercent = 0.2;
+
     data = fetchData(filename);
     [~, ~, ~, ~, inputTest,  predOutTest,  ~,  ~] = serofamPredict(data, testPercent, false, 1);
 
