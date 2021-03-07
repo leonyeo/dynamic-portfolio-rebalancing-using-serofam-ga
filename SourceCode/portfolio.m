@@ -14,17 +14,17 @@ opt = {
     [5	45	36	0.005499194	-0.003570893];
     [2	3	43	2.06E-03	-0.002580471];
 };
-data = cell(4,2);
-for i = 1:4
-    d = fetchData(filename{i});
+% data = cell(4,2);
+% for i = 1:4
+%     d = fetchData(filename{i});
+% 
+%     [~, ~, ~, ~, inputTest,  predOutTest,  ~,  ~] = serofamPredict(d, testPercent, false, 1);
+%     data{i,1} = inputTest;
+%     data{i,2} = predOutTest;
+% 
+%     bnh = investBuyAndHold(inputTest, 1e6);
+%     sprintf("%s buy and hold result: %.3f", filename{i}, bnh)
+% end
 
-    [~, ~, ~, ~, inputTest,  predOutTest,  ~,  ~] = serofamPredict(d, testPercent, false, 1);
-    data{i,1} = inputTest;
-    data{i,2} = predOutTest;
-
-    bnh = investBuyAndHold(inputTest, 1e6);
-    sprintf("%s buy and hold result: %.3f", filename{i}, bnh)
-end
-
-out = tacticalBnH(data, opt);
+out = tacticalBnH(data, opt, [250000 250000 250000 250000], 0, [0 900 0 400], {'AGG', 'SPY', 'VGK', 'VWO'});
 sprintf("Tactical buy and hold result: %.3f", out(end))
