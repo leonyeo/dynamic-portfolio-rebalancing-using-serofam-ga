@@ -1,9 +1,9 @@
 function [inputTrain, predOutTrain, outputTrain, trainErr, ...
     inputTest, predOutTest, outputTest, testErr] = ...
-    serofamPredict(data, testPercent, tuneNetwork, predDepth)
+    serofamPredict(data, testPercent, tuneNetwork, predDepth, inputDepth)
 
 [inputTrain, outputTrain, inputTest, outputTest] = ...
-    prepData(data, 1, testPercent);
+    prepData(data, inputDepth, testPercent);
 
 % 2-Fold validation
 foldSize = floor(size(inputTrain, 1)/2);

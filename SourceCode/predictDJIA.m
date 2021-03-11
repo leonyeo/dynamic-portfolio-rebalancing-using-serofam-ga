@@ -6,7 +6,7 @@ data = fetchData('^STI');
 %% SeroFAM prediction
 [~, predOutTrain, outputTrain, trainErr, ...
  ~, predOutTest,  outputTest,  testErr] = ...
-    serofamPredict(data, testPercent, false, 1);
+    serofamPredict(data, testPercent, false, 1,1);
 figure;
 subplot(2, 2, 1); hold on;
 plot(outputTrain);

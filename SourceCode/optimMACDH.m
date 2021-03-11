@@ -5,7 +5,7 @@ data = fetchData(filename);
 
 [inputTrain, predOutTrain, outputTrain, ~, ...
  inputTest,  predOutTest,  outputTest,  ~] = ...
-    serofamPredict(data, testPercent, false, 1);
+    serofamPredict(data, testPercent, false, 1, 1);
 
 % [macdh, fMACDH] = getfMACDH(inputTest, predOutTest, 12, 26, 9, 1);
 % [rsi, fRSI] = getfRSI(inputTest, predOutTest, 14, 1);

@@ -2,7 +2,7 @@ function out = getOptim(filename)
     testPercent = 0.2;
 
     data = fetchData(filename);
-    [~, ~, ~, ~, inputTest,  predOutTest,  ~,  ~] = serofamPredict(data, testPercent, false, 1);
+    [~, ~, ~, ~, inputTest,  predOutTest,  ~,  ~] = serofamPredict(data, testPercent, false, 1, 1);
 
     out = nan(100,12);
 

@@ -5,7 +5,7 @@ data = fetchData(filename);
 
 [inputTrain, predOutTrain, outputTrain, trainErr, ...
  inputTest,  predOutTest,  outputTest,  testErr] = ...
-    serofamPredict(data, testPercent, false, 1);
+    serofamPredict(data, testPercent, false, 1, 1);
 
 dataIn = cell(5, 1);
 dataOut = cell(5, 1);
@@ -25,7 +25,7 @@ output = cell(2,1);
 
 peakTrough = getPeakTrough(inputTest);
 r = [];
-for i = 1:4
+for i = 1:5
     res = zeros(1,5);
 
     % GA using cash
@@ -64,7 +64,7 @@ for i = 1:4
 end
 output{1} = r;
 r = [];
-for i = 1:4
+for i = 1:5
     res = zeros(1,5);
     % GA with lag
     funcFitness = @(x) getFitnessMACDH(x, dataIn{i}, dataOut{i}, peakTrough);
