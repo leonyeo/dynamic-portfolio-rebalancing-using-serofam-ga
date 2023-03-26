@@ -1,5 +1,5 @@
 # Purpose
-This repo contains the source code for my FYP, Dynamic portfolio rebalancing with lag-optimised trading indicators using SeroFAM and genetic algorithms.
+This repo contains the source code for my FYP, Dynamic portfolio rebalancing with lag-optimised trading indicators using SeroFAM and genetic algorithms.  
 https://www.sciencedirect.com/science/article/pii/S0957417422024599?via%3Dihub
 
 # Usage
