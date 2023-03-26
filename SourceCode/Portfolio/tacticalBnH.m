@@ -15,23 +15,24 @@ function out = tacticalBnH(data, opt, initialInvest, cash, axe, leg)
 
     figure();
     subplot(2, 1 ,1); hold on;
+    set(gca,'DefaultTextFontSize',12);
     axis(axe);
     p = zeros(length(data), 1);
     for i = 1:length(data)
-        plot(data{i,1}, 'Color', lightC{i});
-        p(i) = plot(0, data{i,1}(1), '.', 'Color', darkC{i});
+        plot(data{i,1}, 'Color', lightC{i},'MarkerSize',10);
+        p(i) = plot(0, data{i,1}(1), '.', 'Color', darkC{i},'MarkerSize',10);
     end
     
-    value = nan(length(data{1,1}) + 1);
+    value = nan(length(data{1,1}) + 1, 1);
     for i = 1:length(data{1,1})
         %% Plot
         value(i) = cash;
         for j = 1:length(data)
             value(i) = value(i) + stock(j) * data{j,1}(i);
             if stock(j) > 0
-                plot(i, data{j,1}(i), '.', 'Color', darkC{j});
+                plot(i, data{j,1}(i), '.', 'Color', darkC{j},'MarkerSize',10);
             else
-                plot(i, data{j,1}(i), '.', 'Color', lightC{j});
+                plot(i, data{j,1}(i), '.', 'Color', lightC{j},'MarkerSize',10);
             end
         end
         pause(.01);
@@ -56,7 +57,7 @@ function out = tacticalBnH(data, opt, initialInvest, cash, axe, leg)
             end
         end
     end
-
+    
     value(end) = cash;
     for i = 1:length(data)
         value(end) = value(end) + stock(i) * data{i, 1}(end);
